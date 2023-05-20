@@ -10,17 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import css from './App.module.css';
 
 export default function App() {
-  const { searchValue, setSearchValue } = useState('');
-  const { page, setPage } = useState(1);
-   const { images, setImages } = useState([]);
-  const { loading, setLoading } = useState(false);
-  const { largeImage, setLargeImage} = useState({});
-  const { error, setError } = useState(null);
-   const { showModal, setShowModal} = useState(false);
-  const { isActive, setIsActive } = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [largeImage, setLargeImage] = useState({});
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-
-useEffect(() => {
+  useEffect(() => {
     const fetchImagesData = async () => {
       setLoading(true);
       try {
@@ -36,7 +35,7 @@ useEffect(() => {
           setIsActive(false);
         }
         const searchedImages = data.hits;
-        setImages((prevImages) => [...prevImages, ...searchedImages]);
+        setImages(prevImages => [...prevImages, ...searchedImages]);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -59,17 +58,17 @@ useEffect(() => {
     }
   }, [searchValue, page, images, setError, setImages, setIsActive, setLoading]);
 
-  const handleFormSubmit = (value) => {
+  const handleFormSubmit = value => {
     setSearchValue(value);
     setPage(1);
     setImages([]);
   };
 
   const handleLoadMoreClick = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPage(prevPage => prevPage + 1);
   };
 
-  const handleOpenModal = (image) => {
+  const handleOpenModal = image => {
     const largeImage = { url: image.largeImageURL, alt: image.tags };
     setLargeImage(largeImage);
     setShowModal(true);
@@ -88,10 +87,8 @@ useEffect(() => {
       )}
       {loading && <Loader />}
       {isActive && <Button onClick={handleLoadMoreClick} />}
-      {showModal && (
-        <Modal image={largeImage} onClose={handleCloseModal} />
-      )}
+      {showModal && <Modal image={largeImage} onClose={handleCloseModal} />}
       <ToastContainer />
     </div>
   );
-};
+}
