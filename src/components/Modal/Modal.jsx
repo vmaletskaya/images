@@ -2,10 +2,9 @@ import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
-export default function Modal({ image, onClose })  {
-  
-   const onBackdropClickClose = useCallback(
-    (e) => {
+export default function Modal({ image, onClose }) {
+  const onBackdropClickClose = useCallback(
+    e => {
       if (e.currentTarget === e.target) {
         onClose();
       }
@@ -14,7 +13,7 @@ export default function Modal({ image, onClose })  {
   );
 
   useEffect(() => {
-    const handleClick = (evt) => {
+    const handleClick = evt => {
       if (evt.code === 'Escape') onClose();
     };
 
@@ -25,17 +24,14 @@ export default function Modal({ image, onClose })  {
     };
   }, [onClose]);
 
-
-  
-    const { url, alt } = image;
-    return (
-      <div className={css.overlay} onClick={onBackdropClickClose}>
-        <div className={css.modal}>
-          <img src={url} alt={alt} />
-        </div>
+  const { url, alt } = image;
+  return (
+    <div className={css.overlay} onClick={onBackdropClickClose}>
+      <div className={css.modal}>
+        <img src={url} alt={alt} />
       </div>
-    );
-  
+    </div>
+  );
 }
 
 Modal.propTypes = {
@@ -45,4 +41,3 @@ Modal.propTypes = {
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
-
